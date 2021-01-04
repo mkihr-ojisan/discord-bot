@@ -9,7 +9,7 @@ let config: Record<string, unknown>;
 if (fs.existsSync(configFile)) {
     config = JSON.parse(fs.readFileSync(configFile, 'utf-8'));
 } else {
-    fs.mkdirSync(configPath);
+    fs.mkdirSync(configPath, { recursive: true });
     config = {};
 }
 
