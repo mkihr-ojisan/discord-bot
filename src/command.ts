@@ -4,7 +4,7 @@ import help from './commands/help';
 import halt from './commands/halt';
 import { getConfig } from './config';
 import lumonde from './commands/lumonde';
-import amongus from './commands/amongus';
+import amongusmap from './commands/amongusmap';
 
 let commandPrefix = getConfig('commands.prefix') as string | undefined ?? '$';
 
@@ -28,7 +28,7 @@ function registerCommand(command: Command) {
     }
 }
 
-[echo, help, halt, lumonde, amongus].forEach(registerCommand);
+[echo, help, halt, lumonde, amongusmap].forEach(registerCommand);
 
 export function initCommands(client: Client): void {
     client.on('message', async (message) => {
