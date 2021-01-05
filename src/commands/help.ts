@@ -18,7 +18,7 @@ export default {
             output = ':white_check_mark: **コマンドの一覧を表示します。**\n\n';
             for (const command of commands.values()) {
                 if (!command.isHidden) {
-                    output += `\`${command.name}\` - ${command.shortDescription}\n`;
+                    output += `\`$${command.name}\` - ${command.shortDescription}\n`;
                 }
             }
             output += '\n:information_source: `$help [コマンド名]` **を実行するとより詳しい説明が表示されます。**';
