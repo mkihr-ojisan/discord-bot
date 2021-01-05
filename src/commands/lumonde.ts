@@ -7,7 +7,7 @@ export default {
 > $lumonde
 
 **説明**
-> ルマンドの画像を表示します。意味はない。`,
+> ルマンドの画像を表示します。特に意味はない。`,
     func: async (_client: Client, message: Message): Promise<void> => {
         await message.channel.send({ files: ['res/lumonde.jpg'] });
     }
