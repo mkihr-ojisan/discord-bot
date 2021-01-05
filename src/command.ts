@@ -8,6 +8,7 @@ import amongusmap from './commands/amongusmap';
 import youareebi from './commands/youareebi';
 import AsyncLock from 'async-lock';
 import aliases from './commands/aliases';
+import stats, { serverStats } from './commands/stats';
 
 let commandPrefix = getConfig('commands.prefix') as string | undefined ?? '$';
 
@@ -39,12 +40,15 @@ function registerCommand(command: Command) {
     amongusmap,
     youareebi,
     aliases,
+    stats
 ].forEach(registerCommand);
 
 const lock = new AsyncLock();
 
 export function initCommands(client: Client): void {
     client.on('message', async (message) => {
+        serverStats.receivedMessageCount++;
+
         if (!message.author.bot && message.content.startsWith(commandPrefix)) {
             lock.acquire(message.channel.id, async () => {
                 const [commandName, ...args] = message.content.slice(1).split(/\s/).filter(s => s !== '');
@@ -53,11 +57,17 @@ export function initCommands(client: Client): void {
                 if (command) {
                     try {
                         await command.func(client, message, ...args);
+
+                        serverStats.commandCount++;
                     } catch (ex) {
                         message.channel.send(`:x: **コマンドの実行中にエラーが発生しました: **: ${ex.message}`);
+
+                        serverStats.failedCommandCount++;
                     }
                 } else {
                     message.channel.send(`:x: **不明なコマンド名です: ** \`${commandName}\``);
+
+                    serverStats.failedCommandCount++;
                 }
             });
         }
