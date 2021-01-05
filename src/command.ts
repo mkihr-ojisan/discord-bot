@@ -6,6 +6,7 @@ import { getConfig } from './config';
 import lumonde from './commands/lumonde';
 import amongusmap from './commands/amongusmap';
 import youareebi from './commands/youareebi';
+import AsyncLock from 'async-lock';
 
 let commandPrefix = getConfig('commands.prefix') as string | undefined ?? '$';
 
@@ -31,21 +32,25 @@ function registerCommand(command: Command) {
 
 [echo, help, halt, lumonde, amongusmap, youareebi].forEach(registerCommand);
 
+const lock = new AsyncLock();
+
 export function initCommands(client: Client): void {
     client.on('message', async (message) => {
         if (!message.author.bot && message.content.startsWith(commandPrefix)) {
-            const [commandName, ...args] = message.content.slice(1).split(/\s/).filter(s => s !== '');
+            lock.acquire(message.channel.id, async () => {
+                const [commandName, ...args] = message.content.slice(1).split(/\s/).filter(s => s !== '');
 
-            const command = commands.get(commandName) ?? commandAliases.get(commandName);
-            if (command) {
-                try {
-                    await command.func(client, message, ...args);
-                } catch (ex) {
-                    message.channel.send(`:x: **コマンドの実行中にエラーが発生しました: **: ${ex.message}`);
+                const command = commands.get(commandName) ?? commandAliases.get(commandName);
+                if (command) {
+                    try {
+                        await command.func(client, message, ...args);
+                    } catch (ex) {
+                        message.channel.send(`:x: **コマンドの実行中にエラーが発生しました: **: ${ex.message}`);
+                    }
+                } else {
+                    message.channel.send(`:x: **不明なコマンド名です: ** \`${commandName}\``);
                 }
-            } else {
-                message.channel.send(`:x: **不明なコマンド名です: ** \`${commandName}\``);
-            }
+            });
         }
     });
 }
