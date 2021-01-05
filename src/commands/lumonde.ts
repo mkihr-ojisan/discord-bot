@@ -2,7 +2,6 @@ import { Client, Message } from 'discord.js';
 
 export default {
     name: 'lumonde',
-    isHidden: true,
     shortDescription: 'ルマンドの画像を表示します。',
     description: `**使用方法**
 > $lumonde
