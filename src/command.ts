@@ -9,6 +9,7 @@ import youareebi from './commands/youareebi';
 import AsyncLock from 'async-lock';
 import aliases from './commands/aliases';
 import stats, { serverStats } from './commands/stats';
+import info from './commands/info';
 
 let commandPrefix = getConfig('commands.prefix') as string | undefined ?? '$';
 
@@ -40,7 +41,8 @@ function registerCommand(command: Command) {
     amongusmap,
     youareebi,
     aliases,
-    stats
+    stats,
+    info,
 ].forEach(registerCommand);
 
 const lock = new AsyncLock();
