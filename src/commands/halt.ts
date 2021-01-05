@@ -3,16 +3,16 @@ import { Permission, requirePermission } from '../permission';
 
 export default {
     name: 'halt',
-    shortDescription: 'stop the bot server',
+    shortDescription: 'ボットサーバーを停止します。',
     isHidden: true,
-    description: `**USAGE**
+    description: `**使用方法**
 > $halt
 
-**DESCRIPTION**
-> This command stops the bot server. Only the bot administrator can execute this command.`,
+**説明**
+> ボットサーバーを停止します。このコマンドはボットサーバー管理者のみが実行できます。`,
     func: async (client: Client, message: Message): Promise<void> => {
         requirePermission(Permission.ManageBot, message.member);
-        await message.channel.send(':stop_sign: Stopping...');
+        await message.channel.send(':stop_sign: ボットサーバーを停止します...');
         client.destroy();
         process.exit(0);
     }

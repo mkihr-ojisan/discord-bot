@@ -19,6 +19,6 @@ export function hasPermission(permission: Permission, member: GuildMember): bool
 
 export function requirePermission(permission: Permission, member: GuildMember | null): void {
     if (!member || !hasPermission(permission, member)) {
-        throw Error('you do not have permission to execute this command.');
+        throw Error('あなたはこのコマンドを実行する権限を持っていません。');
     }
 }

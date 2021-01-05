@@ -40,10 +40,10 @@ export function initCommands(client: Client): void {
                 try {
                     await command.func(client, message, ...args);
                 } catch (ex) {
-                    message.channel.send(`:x: **An error occurred while executing the command**: ${ex.message}`);
+                    message.channel.send(`:x: **コマンドの実行中にエラーが発生しました: **: ${ex.message}`);
                 }
             } else {
-                message.channel.send(`:x: **Unknown command** \`${commandName}\``);
+                message.channel.send(`:x: **不明なコマンド名です: ** \`${commandName}\``);
             }
         }
     });
