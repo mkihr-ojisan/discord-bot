@@ -16,10 +16,10 @@ if (fs.existsSync(configFile)) {
 export function getConfig(key: string): unknown {
     return config[key];
 }
-export function setConfig(key: string, value: unknown): void {
+export function setConfig(key: string, value: unknown, noSave?: boolean): void {
     config[key] = value;
 
-    saveConfig();
+    if (!noSave) saveConfig();
 }
 
 async function saveConfig() {
