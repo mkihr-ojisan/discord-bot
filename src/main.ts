@@ -3,12 +3,14 @@ import { getConfig, setConfig } from './config';
 import readline from 'readline';
 import { initCommands } from './command';
 import { initGreeter } from './greet';
+import { initServerStats } from './commands/stats';
 
 (async () => {
     const client = new Client();
     const token = await getToken();
 
     await ensureAdminIdSet();
+    initServerStats();
 
     initCommands(client);
     await client.login(token);

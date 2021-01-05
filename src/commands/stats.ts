@@ -1,6 +1,7 @@
 import { exec } from 'child_process';
 import { Client, Message } from 'discord.js';
 import { readFile } from 'fs/promises';
+import { getConfig, saveConfig, setConfig } from '../config';
 
 export default {
     name: 'stats',
@@ -23,10 +24,19 @@ export default {
 };
 
 export const serverStats = {
-    commandCount: 0,
-    failedCommandCount: 0,
-    receivedMessageCount: 0,
+    commandCount: (getConfig('stats.commandCount') ?? 0) as number,
+    failedCommandCount: (getConfig('stats.failedCommandCount') ?? 0) as number,
+    receivedMessageCount: (getConfig('stats.receivedMessageCount') ?? 0) as number,
 };
+
+export function initServerStats(): void {
+    setInterval(() => {
+        for (const key of Object.keys(serverStats)) {
+            setConfig('stats.' + key, (serverStats as Record<string, unknown>)[key], true);
+        }
+        saveConfig();
+    }, 600000);
+}
 
 function getUptime(): string {
     const uptime = process.uptime();
