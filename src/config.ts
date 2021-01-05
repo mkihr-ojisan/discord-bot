@@ -25,3 +25,7 @@ export function setConfig(key: string, value: unknown, noSave?: boolean): void {
 export async function saveConfig(): Promise<void> {
     await fsp.writeFile(configFile, JSON.stringify(config), 'utf-8');
 }
+
+export function saveConfigSync(): void {
+    fs.writeFileSync(configFile, JSON.stringify(config), 'utf-8');
+}
