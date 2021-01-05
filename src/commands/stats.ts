@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 import { Client, Message } from 'discord.js';
 import { readFile } from 'fs/promises';
-import { getConfig, saveConfig, setConfig } from '../config';
+import { getConfig, saveConfig, saveConfigSync, setConfig } from '../config';
 
 export default {
     name: 'stats',
@@ -36,6 +36,12 @@ export function initServerStats(): void {
         }
         saveConfig();
     }, 600000);
+    process.on('exit', () => {
+        for (const key of Object.keys(serverStats)) {
+            setConfig('stats.' + key, (serverStats as Record<string, unknown>)[key], true);
+        }
+        saveConfigSync();
+    });
 }
 
 function getUptime(): string {
