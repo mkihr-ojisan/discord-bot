@@ -7,6 +7,7 @@ import lumonde from './commands/lumonde';
 import amongusmap from './commands/amongusmap';
 import youareebi from './commands/youareebi';
 import AsyncLock from 'async-lock';
+import aliases from './commands/aliases';
 
 let commandPrefix = getConfig('commands.prefix') as string | undefined ?? '$';
 
@@ -30,7 +31,15 @@ function registerCommand(command: Command) {
     }
 }
 
-[echo, help, halt, lumonde, amongusmap, youareebi].forEach(registerCommand);
+[
+    echo,
+    help,
+    halt,
+    lumonde,
+    amongusmap,
+    youareebi,
+    aliases,
+].forEach(registerCommand);
 
 const lock = new AsyncLock();
 
