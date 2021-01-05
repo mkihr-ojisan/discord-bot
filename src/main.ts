@@ -2,6 +2,7 @@ import { Client } from 'discord.js';
 import { getConfig, setConfig } from './config';
 import readline from 'readline';
 import { initCommands } from './command';
+import { initGreeter } from './greet';
 
 (async () => {
     const client = new Client();
@@ -11,6 +12,7 @@ import { initCommands } from './command';
 
     initCommands(client);
     await client.login(token);
+    initGreeter(client);
 })();
 
 async function getToken(): Promise<string> {
