@@ -10,6 +10,7 @@ import AsyncLock from 'async-lock';
 import aliases from './commands/aliases';
 import stats, { serverStats } from './commands/stats';
 import info from './commands/info';
+import delmsg from './commands/delmsg';
 
 export interface Command {
     name: string,
@@ -49,6 +50,7 @@ function registerCommand(command: Command) {
     aliases,
     stats,
     info,
+    delmsg
 ].forEach(registerCommand);
 
 const lock = new AsyncLock();
