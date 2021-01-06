@@ -5,12 +5,12 @@ export default {
     name: 'help',
     aliases: ['h'],
     shortDescription: 'コマンドの説明を表示します。',
-    description: `**使用方法**
-> $help [コマンド名]
-> $h [コマンド名]
-
-**説明**
-> 指定したコマンドの説明を表示します。コマンド名が与えられていない場合は、コマンドの短い説明の一覧を表示します。`,
+    description: {
+        usage: '[コマンド名]',
+        sections: {
+            description: '指定したコマンドの説明を表示します。コマンド名が与えられていない場合は、コマンドの短い説明の一覧を表示します。'
+        }
+    },
     func: async (_client: Client, message: Message, ...args: string[]): Promise<void> => {
         let output;
 

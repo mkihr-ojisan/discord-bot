@@ -4,11 +4,6 @@ import { commands } from '../command';
 export default {
     name: 'aliases',
     shortDescription: 'コマンドの別名の一覧を表示します。',
-    description: `**使用方法**
-> $aliases
-
-**説明**
-> コマンドの別名の一覧を表示します。`,
     func: async (_client: Client, message: Message): Promise<void> => {
         const outputs = [];
         for (const [, command] of commands) {

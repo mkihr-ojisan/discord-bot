@@ -4,12 +4,12 @@ export default {
     name: 'amongusmap',
     aliases: ['m'],
     shortDescription: 'Among Usのマップを表示します。',
-    description: `**使用方法**
-> $amongusmap {s[keld] | m[ira] | p[olus]}
-> $m {s[keld] | m[ira] | p[olus]}
-
-**説明**
-> 指定した名前のAmong Usのマップを表示します。`,
+    description: {
+        usage: '{s[keld] | m[ira] | p[olus]}',
+        sections: {
+            description: '指定した名前のAmong Usのマップを表示します。'
+        }
+    },
     func: async (_client: Client, message: Message, ...args: string[]): Promise<void> => {
         if (args.length === 0) {
             await message.channel.send(':x: **マップ名を指定してください。**');

@@ -6,11 +6,6 @@ import { getConfig, saveConfig, saveConfigSync, setConfig } from '../config';
 export default {
     name: 'stats',
     shortDescription: '統計を表示します。',
-    description: `**使用方法**
-> $stats
-
-**説明**
-> 統計を表示します。`,
     func: async (client: Client, message: Message): Promise<void> => {
         message.channel.send(`__**統計**__
 > 起動時間: ${getUptime()}

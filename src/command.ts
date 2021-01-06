@@ -16,10 +16,18 @@ let commandPrefix = getConfig<string>('commands.prefix') ?? '$';
 export interface Command {
     name: string,
     aliases?: string[],
-    description?: string,
+    description?: CommandDescription,
     shortDescription: string,
     isHidden?: boolean,
     func: (client: Client, message: Message, ...args: string[]) => Promise<void>,
+}
+export interface CommandDescription {
+    usage?: string,
+    sections?: {
+        description?: string,
+        options?: string,
+        arguments?: string,
+    };
 }
 
 export const commands: Map<string, Command> = new Map();

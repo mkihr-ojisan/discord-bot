@@ -3,11 +3,6 @@ import { Client, Message } from 'discord.js';
 export default {
     name: 'info',
     shortDescription: 'このボットの情報を表示します。',
-    description: `**使用方法**
-> $info
-
-**説明**
-> このボットの情報を表示します。`,
     func: async (client: Client, message: Message): Promise<void> => {
         let lumonde;
         if (client.emojis.cache.has('lumonde')) {
