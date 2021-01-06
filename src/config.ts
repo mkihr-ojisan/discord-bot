@@ -22,6 +22,15 @@ export function setConfig<T>(key: string, value: T, noSave?: boolean): void {
     if (!noSave) saveConfig();
 }
 
+export function getGuildConfig<T>(guild: Guild, key: string): T | undefined {
+    return config[`guild[${guild.id}].${key}`] as T;
+}
+export function setGuildConfig<T>(guild: Guild, key: string, value: T, noSave?: boolean): void {
+    config[`guild[${guild.id}].${key}`] = value;
+
+    if (!noSave) saveConfig();
+}
+
 export async function saveConfig(): Promise<void> {
     await fsp.writeFile(configFile, JSON.stringify(config), 'utf-8');
 }
