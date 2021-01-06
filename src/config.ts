@@ -38,16 +38,34 @@ export function removeGuildConfig(guild: Guild, key: string): void {
     delete config[`guild[${guild.id}].${key}`];
 }
 
-export function getChannelConfig<T>(channel: Channel, key: string): T | undefined {
-    return config[`channel[${channel.id}].${key}`] as T;
+export function getChannelConfig<T>(channel: Channel | string, key: string): T | undefined {
+    let channelId;
+    if (typeof channel === 'string')
+        channelId = channel;
+    else
+        channelId = channel.id;
+
+    return config[`channel[${channelId}].${key}`] as T;
 }
-export function setChannelConfig<T>(channel: Channel, key: string, value: T, noSave?: boolean): void {
-    config[`channel[${channel.id}].${key}`] = value;
+export function setChannelConfig<T>(channel: Channel | string, key: string, value: T, noSave?: boolean): void {
+    let channelId;
+    if (typeof channel === 'string')
+        channelId = channel;
+    else
+        channelId = channel.id;
+
+    config[`channel[${channelId}].${key}`] = value;
 
     if (!noSave) saveConfig();
 }
-export function removeChannelConfig(channel: Channel, key: string): void {
-    delete config[`channel[${channel.id}].${key}`];
+export function removeChannelConfig(channel: Channel | string, key: string): void {
+    let channelId;
+    if (typeof channel === 'string')
+        channelId = channel;
+    else
+        channelId = channel.id;
+
+    delete config[`channel[${channelId}].${key}`];
 }
 
 export async function saveConfig(): Promise<void> {
