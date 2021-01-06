@@ -22,6 +22,9 @@ export function setConfig<T>(key: string, value: T, noSave?: boolean): void {
 
     if (!noSave) saveConfig();
 }
+export function removeConfig(key: string): void {
+    delete config[key];
+}
 
 export function getGuildConfig<T>(guild: Guild, key: string): T | undefined {
     return config[`guild[${guild.id}].${key}`] as T;
@@ -30,6 +33,9 @@ export function setGuildConfig<T>(guild: Guild, key: string, value: T, noSave?: 
     config[`guild[${guild.id}].${key}`] = value;
 
     if (!noSave) saveConfig();
+}
+export function removeGuildConfig(guild: Guild, key: string): void {
+    delete config[`guild[${guild.id}].${key}`];
 }
 
 export async function saveConfig(): Promise<void> {
