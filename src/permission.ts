@@ -2,14 +2,14 @@ import { GuildMember } from 'discord.js';
 import { getConfig } from './config';
 
 export enum Permission {
-    Administrator,
+    BotAdministrator,
     ManageBot,
 }
 
 export function hasPermission(permission: Permission, member: GuildMember): boolean {
     if (member.id === getConfig('admin.id'))
         return true;
-    if (permission === Permission.Administrator)
+    if (permission === Permission.BotAdministrator)
         return false;
     if (member.roles.cache.some(r => r.name === Permission[permission]))
         return true;
