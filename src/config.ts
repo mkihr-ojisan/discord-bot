@@ -1,7 +1,7 @@
 import { promises as fsp } from 'fs';
 import * as fs from 'fs';
 import { homedir } from 'os';
-import { Guild } from 'discord.js';
+import { Channel, Guild } from 'discord.js';
 
 const configPath = homedir() + '/.config/mkihr-oiisan-discord-bot';
 const configFile = configPath + '/config.json';
@@ -36,6 +36,18 @@ export function setGuildConfig<T>(guild: Guild, key: string, value: T, noSave?: 
 }
 export function removeGuildConfig(guild: Guild, key: string): void {
     delete config[`guild[${guild.id}].${key}`];
+}
+
+export function getChannelConfig<T>(channel: Channel, key: string): T | undefined {
+    return config[`channel[${channel.id}].${key}`] as T;
+}
+export function setChannelConfig<T>(channel: Channel, key: string, value: T, noSave?: boolean): void {
+    config[`channel[${channel.id}].${key}`] = value;
+
+    if (!noSave) saveConfig();
+}
+export function removeChannelConfig(channel: Channel, key: string): void {
+    delete config[`channel[${channel.id}].${key}`];
 }
 
 export async function saveConfig(): Promise<void> {
