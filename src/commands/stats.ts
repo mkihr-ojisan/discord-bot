@@ -1,20 +1,19 @@
 import { exec } from 'child_process';
-import { Client, Message } from 'discord.js';
+import { Client, MessageEmbed } from 'discord.js';
 import { readFile } from 'fs/promises';
 import { getConfig, saveConfig, saveConfigSync, setConfig } from '../config';
 
 export default {
     name: 'stats',
     shortDescription: '統計を表示します。',
-    func: async (client: Client, message: Message): Promise<void> => {
-        message.channel.send(`__**統計**__
-> 起動時間: ${getUptime()}
-> 参加サーバー数: ${client.guilds.cache.keyArray().length}
-> 実行したコマンド数: ${serverStats.commandCount}
-> 失敗したコマンド数: ${serverStats.failedCommandCount}
-> 受信したメッセージ数: ${serverStats.receivedMessageCount}
-> CPU温度: ${await getTemperature()}℃
-> Gitコミット数: ${await getGitCommitCount()}`);
+    func: async (client: Client): Promise<MessageEmbed> => {
+        return new MessageEmbed().setTitle(':abacus: 統計').setDescription(`起動時間: ${getUptime()}
+参加サーバー数: ${client.guilds.cache.keyArray().length}
+実行したコマンド数: ${serverStats.commandCount}
+失敗したコマンド数: ${serverStats.failedCommandCount}
+受信したメッセージ数: ${serverStats.receivedMessageCount}
+CPU温度: ${await getTemperature()}℃
+Gitコミット数: ${await getGitCommitCount()}`);
     }
 };
 

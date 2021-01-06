@@ -1,8 +1,8 @@
-import { Client, Message } from 'discord.js';
+import { Client, Guild, Message, MessageEmbed } from 'discord.js';
 import echo from './commands/echo';
 import help from './commands/help';
 import halt from './commands/halt';
-import { getConfig } from './config';
+import { getGuildConfig } from './config';
 import lumonde from './commands/lumonde';
 import amongusmap from './commands/amongusmap';
 import youareebi from './commands/youareebi';
@@ -17,7 +17,7 @@ export interface Command {
     description?: CommandDescription,
     shortDescription: string,
     isHidden?: boolean,
-    func: (client: Client, message: Message, ...args: string[]) => Promise<void>,
+    func: (client: Client, message: Message, ...args: string[]) => Promise<MessageEmbed>,
 }
 export interface CommandDescription {
     usage?: string,
@@ -63,21 +63,28 @@ export function initCommands(client: Client): void {
                 const [commandName, ...args] = message.content.slice(1).split(/\s/).filter(s => s !== '');
 
                 const command = commands.get(commandName) ?? commandAliases.get(commandName);
+                let outputMessage;
                 if (command) {
                     try {
-                        await command.func(client, message, ...args);
+                        outputMessage = await command.func(client, message, ...args);
 
                         serverStats.commandCount++;
                     } catch (ex) {
-                        message.channel.send(`:x: **コマンドの実行中にエラーが発生しました: **: ${ex.message}`);
+                        outputMessage = new MessageEmbed().setDescription(`:x: **コマンドの実行中にエラーが発生しました**: ${ex.message}`);
 
                         serverStats.failedCommandCount++;
                     }
                 } else {
-                    message.channel.send(`:x: **不明なコマンド名です: ** \`${commandName}\``);
+                    outputMessage = new MessageEmbed().setDescription(`:x: **不明なコマンドです**: \`${commandName}\``);
 
                     serverStats.failedCommandCount++;
                 }
+
+                outputMessage
+                    .setFooter(`${message.author.username}#${message.author.discriminator} が実行`, message.author.displayAvatarURL())
+                    .setColor(outputMessage.color ?? 'PURPLE')
+                    .setTimestamp(message.createdTimestamp);
+                message.channel.send(outputMessage);
             });
         }
     });

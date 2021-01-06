@@ -1,6 +1,7 @@
 import { promises as fsp } from 'fs';
 import * as fs from 'fs';
 import { homedir } from 'os';
+import { Guild } from 'discord.js';
 
 const configPath = homedir() + '/.config/mkihr-oiisan-discord-bot';
 const configFile = configPath + '/config.json';

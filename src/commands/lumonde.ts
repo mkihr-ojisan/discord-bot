@@ -1,4 +1,4 @@
-import { Client, Message } from 'discord.js';
+import { MessageEmbed } from 'discord.js';
 
 export default {
     name: 'lumonde',
@@ -8,7 +8,7 @@ export default {
             description: 'ルマンドの画像を表示します。特に意味はない。'
         }
     },
-    func: async (_client: Client, message: Message): Promise<void> => {
-        await message.channel.send({ files: ['res/lumonde.jpg'] });
+    func: async (): Promise<MessageEmbed> => {
+        return new MessageEmbed().setImage('https://raw.githubusercontent.com/mkihr-ojisan/discord-bot/main/res/lumonde.jpg');
     }
 };

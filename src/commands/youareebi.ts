@@ -1,19 +1,22 @@
-import { Client, Message } from 'discord.js';
+import { MessageEmbed } from 'discord.js';
 
 export default {
     name: 'お前はエビ',
     aliases: ['お前は🍤', 'お前は🦐'],
     shortDescription: 'このボットがエビであることを主張します。',
-    func: async (_client: Client, message: Message): Promise<void> => {
-        let me;
+    func: async (): Promise<MessageEmbed> => {
         const random = Math.random();
+        const outputMessage = new MessageEmbed();
         if (random < 0.99) {
-            me = 'ザリガニ';
+            outputMessage.setDescription(':x: **いいえ、私はザリガニ。**<:zarigani:796346537307144212>');
         } else if (random < 0.999) {
-            me = 'ルーベラ';
+            outputMessage.setDescription(':x: **いいえ、私はルーベラ。**<:lunera:796345091651928095>');
+        } else if (random < 0.9999) {
+            outputMessage.setDescription(':woozy_face: **いいえ、私はエビ。**:shrimp:');
         } else {
-            me = '…エビ';
+            outputMessage.setDescription(':x: **いいえ、お前がエビ。**:middle_finger:');
         }
-        await message.channel.send(`いいえ、私は${me}。`);
+
+        return outputMessage;
     }
 };

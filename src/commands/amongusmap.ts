@@ -1,4 +1,4 @@
-import { Client, Message } from 'discord.js';
+import { Client, Message, MessageEmbed } from 'discord.js';
 
 export default {
     name: 'amongusmap',
@@ -10,31 +10,33 @@ export default {
             description: '指定した名前のAmong Usのマップを表示します。'
         }
     },
-    func: async (_client: Client, message: Message, ...args: string[]): Promise<void> => {
+    func: async (_client: Client, message: Message, ...args: string[]): Promise<MessageEmbed> => {
         if (args.length === 0) {
-            await message.channel.send(':x: **マップ名を指定してください。**');
-            return;
+            throw Error('マップ名を指定してください。');
         }
+
+        const outputMessage = new MessageEmbed();
 
         switch (args[0]) {
             case 'skeld':
             case 's':
-                await message.channel.send(':rocket: **THE SKELD のマップ**');
-                await message.channel.send({ files: ['res/maps/skeld.png'] });
+                outputMessage.title = ':rocket: THE SKELD のマップ';
+                outputMessage.setImage('https://raw.githubusercontent.com/mkihr-ojisan/discord-bot/main/res/maps/skeld.png');
                 break;
             case 'mira':
             case 'm':
-                await message.channel.send(':cityscape: **MIRA HQ のマップ**');
-                await message.channel.send({ files: ['res/maps/mira.png'] });
+                outputMessage.title = ':cityscape: MIRA HQ のマップ';
+                outputMessage.setImage('https://raw.githubusercontent.com/mkihr-ojisan/discord-bot/main/res/maps/mira.png');
                 break;
             case 'polus':
             case 'p':
-                await message.channel.send(':star_and_crescent: **POLUS のマップ**');
-                await message.channel.send({ files: ['res/maps/polus.png'] });
+                outputMessage.title = ':star_and_crescent: POLUS のマップ';
+                outputMessage.setImage('https://raw.githubusercontent.com/mkihr-ojisan/discord-bot/main/res/maps/polus.png');
                 break;
             default:
-                await message.channel.send(':x: **不明なマップ名です。**');
-                break;
+                throw Error('不明なマップ名です。');
         }
+
+        return outputMessage;
     }
 };
