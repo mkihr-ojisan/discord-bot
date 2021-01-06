@@ -83,6 +83,6 @@ export function initCommands(client: Client): void {
     });
 }
 
-export function getCommandPrefix(guild: Guild | null) {
+export function getCommandPrefix(guild: Guild | null): string {
     return (guild && getGuildConfig<string>(guild, 'commands.prefix')) ?? '$';
 } 
