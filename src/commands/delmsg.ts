@@ -6,8 +6,8 @@ export default {
     name: 'delmsg',
     shortDescription: 'メッセージを削除します。',
     description: {
+        usage: '[options] [message_id]',
         sections: {
-            usage: '[options] [channel_id]',
             description: '指定したIDのメッセージを削除します。このコマンドはボットサーバー管理者またはサーバー管理者のみが実行できます。ボットが`MANAGE_MESSAGES`を持たない場合、他のユーザーのメッセージを削除することはできません。',
             options: `\`--quiet, -q\`
 削除成功時にメッセージを表示しません。
