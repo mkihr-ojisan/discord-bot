@@ -17,6 +17,7 @@ export default {
                 .setDescription(':stop_sign: ボットサーバーを停止します...')
                 .setFooter(`${message.author.username}#${message.author.discriminator} が実行`, message.author.displayAvatarURL())
                 .setColor('PURPLE')
+                .setTimestamp(message.createdTimestamp)
         );
         client.destroy();
         process.exit(0);
