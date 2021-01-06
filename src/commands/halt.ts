@@ -13,9 +13,9 @@ export default {
         requirePermission(Permission.BotAdministrator, message.member);
         await message.channel.send(
             new MessageEmbed()
-                .setDescription(':stop_sign: ボットサーバーを停止します...')
+                .setDescription(':stop_sign: ボットサーバーを停止します...Dockerが再起動してくれるまでちょっと待ってね<:yoshi:796391488178356254>')
                 .setFooter(`${message.author.username}#${message.author.discriminator} が実行`, message.author.displayAvatarURL())
-                .setColor('PURPLE')
+                .setColor('#d5a446')
                 .setTimestamp(message.createdTimestamp)
         );
         client.destroy();
