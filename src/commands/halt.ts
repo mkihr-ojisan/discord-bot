@@ -11,7 +11,7 @@ export default {
         }
     },
     func: async (client: Client, message: Message): Promise<MessageEmbed> => {
-        requirePermission(Permission.ManageBot, message.member);
+        requirePermission(Permission.Administrator, message.member);
         await message.channel.send(
             new MessageEmbed()
                 .setDescription(':stop_sign: ボットサーバーを停止します...')
