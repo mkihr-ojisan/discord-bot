@@ -13,10 +13,10 @@ if (fs.existsSync(configFile)) {
     config = {};
 }
 
-export function getConfig(key: string): unknown {
-    return config[key];
+export function getConfig<T>(key: string): T | undefined {
+    return config[key] as T;
 }
-export function setConfig(key: string, value: unknown, noSave?: boolean): void {
+export function setConfig<T>(key: string, value: T, noSave?: boolean): void {
     config[key] = value;
 
     if (!noSave) saveConfig();

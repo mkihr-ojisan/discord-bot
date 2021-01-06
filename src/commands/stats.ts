@@ -24,9 +24,9 @@ export default {
 };
 
 export const serverStats = {
-    commandCount: (getConfig('stats.commandCount') ?? 0) as number,
-    failedCommandCount: (getConfig('stats.failedCommandCount') ?? 0) as number,
-    receivedMessageCount: (getConfig('stats.receivedMessageCount') ?? 0) as number,
+    commandCount: getConfig<number>('stats.commandCount') ?? 0,
+    failedCommandCount: getConfig<number>('stats.failedCommandCount') ?? 0,
+    receivedMessageCount: getConfig<number>('stats.receivedMessageCount') ?? 0,
 };
 
 export function initServerStats(): void {

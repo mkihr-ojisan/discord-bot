@@ -11,7 +11,7 @@ import aliases from './commands/aliases';
 import stats, { serverStats } from './commands/stats';
 import info from './commands/info';
 
-let commandPrefix = getConfig('commands.prefix') as string | undefined ?? '$';
+let commandPrefix = getConfig<string>('commands.prefix') ?? '$';
 
 export interface Command {
     name: string,
