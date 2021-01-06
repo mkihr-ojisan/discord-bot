@@ -11,8 +11,6 @@ import aliases from './commands/aliases';
 import stats, { serverStats } from './commands/stats';
 import info from './commands/info';
 
-let commandPrefix = getConfig<string>('commands.prefix') ?? '$';
-
 export interface Command {
     name: string,
     aliases?: string[],
@@ -59,6 +57,7 @@ export function initCommands(client: Client): void {
     client.on('message', async (message) => {
         serverStats.receivedMessageCount++;
 
+        const commandPrefix = getCommandPrefix(message.guild);
         if (!message.author.bot && message.content.startsWith(commandPrefix)) {
             lock.acquire(message.channel.id, async () => {
                 const [commandName, ...args] = message.content.slice(1).split(/\s/).filter(s => s !== '');
@@ -83,3 +82,7 @@ export function initCommands(client: Client): void {
         }
     });
 }
+
+export function getCommandPrefix(guild: Guild | null) {
+    return (guild && getGuildConfig<string>(guild, 'commands.prefix')) ?? '$';
+} 
