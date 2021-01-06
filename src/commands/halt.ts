@@ -4,7 +4,6 @@ import { Permission, requirePermission } from '../permission';
 export default {
     name: 'halt',
     shortDescription: 'ボットサーバーを停止します。',
-    isHidden: true,
     description: {
         sections: {
             description: 'ボットサーバーを停止します。このコマンドはボットサーバー管理者のみが実行できます。'
