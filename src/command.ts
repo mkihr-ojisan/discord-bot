@@ -82,7 +82,7 @@ export function initCommands(client: Client): void {
 
                 outputMessage
                     .setFooter(`${message.author.username}#${message.author.discriminator} が実行`, message.author.displayAvatarURL())
-                    .setColor(outputMessage.color ?? 'PURPLE')
+                    .setColor(outputMessage.color ?? '#d5a446')
                     .setTimestamp(message.createdTimestamp);
                 message.channel.send(outputMessage);
             });
