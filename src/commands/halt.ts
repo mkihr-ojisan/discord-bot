@@ -3,10 +3,10 @@ import { Permission, requirePermission } from '../permission';
 
 export default {
     name: 'halt',
-    shortDescription: 'ボットサーバーを停止します。',
+    shortDescription: 'ボットを停止します。',
     description: {
         sections: {
-            description: 'ボットサーバーを停止します。このコマンドはボットサーバー管理者のみが実行できます。'
+            description: 'ボットを停止します。このコマンドはボット管理者のみが実行できます。'
         }
     },
     func: async (client: Client, message: Message): Promise<MessageEmbed> => {

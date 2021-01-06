@@ -8,7 +8,7 @@ export default {
     description: {
         usage: '[options] [message_id]',
         sections: {
-            description: '指定したIDのメッセージを削除します。このコマンドはボットサーバー管理者またはサーバー管理者のみが実行できます。ボットが`MANAGE_MESSAGES`を持たない場合、他のユーザーのメッセージを削除することはできません。',
+            description: '指定したIDのメッセージを削除します。このコマンドはボット管理者またはサーバー管理者のみが実行できます。ボットが`MANAGE_MESSAGES`を持たない場合、他のユーザーのメッセージを削除することはできません。',
             options: `\`--quiet, -q\`
 削除成功時にメッセージを表示しません。
 \`--channel=ID, -c ID\`
@@ -16,7 +16,7 @@ export default {
 \`--all, -a\`
 チャンネル中のボットが作成したメッセージを全て削除します。
 \`--limit=number, -l=number
-\`--all\`を指定したときに、遡るメッセージ数を100単位で指定します。ボットサーバー管理者のみが使用できます。デフォルト値は100。`
+\`--all\`を指定したときに、遡るメッセージ数を100単位で指定します。ボット管理者のみが使用できます。デフォルト値は100。`
         }
     },
     func: async (client: Client, commandMessage: Message, ...args: string[]): Promise<MessageEmbed | null> => {
