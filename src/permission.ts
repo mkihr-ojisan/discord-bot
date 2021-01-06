@@ -3,14 +3,20 @@ import { getConfig } from './config';
 
 export enum Permission {
     BotAdministrator,
-    ManageBot,
+    GuildAdministrator,
 }
 
 export function hasPermission(permission: Permission, member: GuildMember): boolean {
     if (member.id === getConfig('admin.id'))
         return true;
-    if (permission === Permission.BotAdministrator)
+    else if (permission === Permission.BotAdministrator)
         return false;
+
+    if (member.permissions.has('ADMINISTRATOR'))
+        return true;
+    else if (permission === Permission.GuildAdministrator)
+        return false;
+
     if (member.roles.cache.some(r => r.name === Permission[permission]))
         return true;
 
