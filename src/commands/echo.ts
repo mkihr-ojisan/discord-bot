@@ -18,11 +18,14 @@ export default {
 メッセージのタイトルのリンク先を設定します。URLは<>で囲むことができます。`
         }
     },
-    func: async (_client: Client, message: Message, ...args: string[]): Promise<MessageEmbed> => {
+    func: async (_client: Client, _message: Message, ...args: string[]): Promise<MessageEmbed> => {
         const options = getopts(args, {
-            string: ['color', 'title', 'image', 'url'],
+            string: ['color', 'title', 'image', 'url', 'substitute'],
+            boolean: ['raw'],
             default: { color: null }
         });
+
+        let content = options._.join(' ');
 
         if (options.image && options.image.match(/^<.*>$/)) {
             options.image = options.image.slice(1, -1);
@@ -30,9 +33,25 @@ export default {
         if (options.url && options.url.match(/^<.*>$/)) {
             options.url = options.url.slice(1, -1);
         }
+        if (options.substitute) {
+            const delimiter = options.substitute[0];
+            const [substr, newSubstr] = options.substitute.slice(1).split(delimiter);
+            if (substr === undefined || newSubstr === undefined)
+                throw Error('`--substitute`が正しくありません。');
+
+            if (options.title)
+                options.title = options.title.replaceAll(substr, newSubstr);
+            content = content.replaceAll(substr, newSubstr);
+        }
+        if (options.raw) {
+            let backQuoteCount = 1;
+            while (content.indexOf('`'.repeat(backQuoteCount)) !== -1)
+                backQuoteCount++;
+            content = '`'.repeat(backQuoteCount) + content +'`'.repeat(backQuoteCount);
+        }
 
         return new MessageEmbed()
-            .setDescription(options._.join(' '))
+            .setDescription(content)
             .setColor(options.color)
             .setTitle(options.title)
             .setImage(options.image)
