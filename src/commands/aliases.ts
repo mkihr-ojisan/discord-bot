@@ -12,7 +12,7 @@ export default {
         outputMessage.description = '';
         for (const [, command] of commands) {
             if (command.aliases) {
-                outputMessage.description += (`\`${commandPrefix}${command.name}\` - ${command.aliases.map(a => `\`${commandPrefix}${a}\``).join(', ')}`);
+                outputMessage.description += (`\`${commandPrefix}${command.name}\` - ${command.aliases.map(a => `\`${commandPrefix}${a}\``).join(', ')}\n`);
             }
         }
 
