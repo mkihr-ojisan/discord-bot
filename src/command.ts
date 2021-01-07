@@ -11,7 +11,6 @@ import aliases from './commands/aliases';
 import stats, { serverStats } from './commands/stats';
 import info from './commands/info';
 import delmsg from './commands/delmsg';
-import recruit from './commands/recruit';
 import getconfig from './commands/getconfig';
 
 export const DEFAULT_MESSAGE_EMBED_COLOR = '#d5a446';
@@ -55,7 +54,6 @@ function registerCommand(command: Command) {
     stats,
     info,
     delmsg,
-    recruit,
     getconfig,
 ].forEach(registerCommand);
 
