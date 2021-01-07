@@ -13,9 +13,9 @@ export default {
 \`--title=タイトル\`
 メッセージのタイトルを設定します。
 \`--image=URL\`
-メッセージの画像を設定します。\`http://\`または\`https://\`で始まる必要があります。
+メッセージの画像を設定します。\`http://\`または\`https://\`で始まる必要があります。URLは<>で囲むことができます。
 \`--url=URL\`
-メッセージのタイトルのリンク先を設定します。`
+メッセージのタイトルのリンク先を設定します。URLは<>で囲むことができます。`
         }
     },
     func: async (_client: Client, message: Message, ...args: string[]): Promise<MessageEmbed> => {
@@ -23,6 +23,13 @@ export default {
             string: ['color', 'title', 'image', 'url'],
             default: { color: null }
         });
+
+        if (options.image && options.image.match(/^<.*>$/)) {
+            options.image = options.image.slice(1, -1);
+        }
+        if (options.url && options.url.match(/^<.*>$/)) {
+            options.url = options.url.slice(1, -1);
+        }
 
         return new MessageEmbed()
             .setDescription(options._.join(' '))
