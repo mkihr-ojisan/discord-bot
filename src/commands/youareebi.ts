@@ -2,8 +2,11 @@ import { MessageEmbed } from 'discord.js';
 
 export default {
     name: 'お前はエビ',
-    aliases: ['お前は🍤', 'お前は🦐', 'ebi'],
+    aliases: ['お前は🍤', 'お前は🦐', 'ebi', 'お前は'],
     shortDescription: 'このボットがエビであることを主張します。',
+    description: {
+        usage: '[任意の文字列]'
+    },
     func: async (): Promise<MessageEmbed> => {
         const random = Math.random();
         const outputMessage = new MessageEmbed();
