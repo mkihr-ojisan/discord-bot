@@ -11,7 +11,10 @@ import aliases from './commands/aliases';
 import stats, { serverStats } from './commands/stats';
 import info from './commands/info';
 import delmsg from './commands/delmsg';
+import recruit from './commands/recruit';
 import getconfig from './commands/getconfig';
+
+export const DEFAULT_MESSAGE_EMBED_COLOR = '#d5a446';
 
 export interface Command {
     name: string,
@@ -52,6 +55,7 @@ function registerCommand(command: Command) {
     stats,
     info,
     delmsg,
+    recruit,
     getconfig,
 ].forEach(registerCommand);
 
@@ -87,7 +91,7 @@ export function initCommands(client: Client): void {
                 if (outputMessage) {
                     outputMessage
                         .setFooter(`${message.author.username}#${message.author.discriminator} が実行`, message.author.displayAvatarURL())
-                        .setColor(outputMessage.color ?? '#d5a446')
+                        .setColor(outputMessage.color ?? DEFAULT_MESSAGE_EMBED_COLOR)
                         .setTimestamp(message.createdTimestamp);
                     message.channel.send(outputMessage);
                 }

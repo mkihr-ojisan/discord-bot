@@ -1,5 +1,6 @@
 import { Client, Message, MessageEmbed } from 'discord.js';
 import { Permission, requirePermission } from '../permission';
+import { DEFAULT_MESSAGE_EMBED_COLOR } from '../command';
 
 export default {
     name: 'halt',
@@ -15,7 +16,7 @@ export default {
             new MessageEmbed()
                 .setDescription(':stop_sign: ボットサーバーを停止します...Dockerが再起動してくれるまでちょっと待ってね<:yoshi:796391488178356254>')
                 .setFooter(`${message.author.username}#${message.author.discriminator} が実行`, message.author.displayAvatarURL())
-                .setColor('#d5a446')
+                .setColor(DEFAULT_MESSAGE_EMBED_COLOR)
                 .setTimestamp(message.createdTimestamp)
         );
         client.destroy();
