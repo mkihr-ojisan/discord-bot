@@ -57,3 +57,8 @@ async function ensureAdminIdSet(): Promise<void> {
         setConfig('admin.id', id);
     }
 }
+
+['SIGINT', 'SIGQUIT', 'SIGTERM'].forEach(signal => process.on(signal, () => {
+    console.log(`Received ${signal}. Exiting...`);
+    process.exit(0);
+}));
