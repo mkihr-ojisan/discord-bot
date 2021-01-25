@@ -13,7 +13,7 @@ export default {
         if (random < 0.99) {
             outputMessage.setDescription(':x: **いいえ、私はザリガニ。**<:zarigani:796346537307144212>');
         } else if (random < 0.999) {
-            outputMessage.setDescription(':x: **いいえ、私はルーベラ。**<:lunera:796345091651928095>');
+            outputMessage.setDescription(':x: **いいえ、私はルーベラ。**<:lubera:796345091651928095>');
         } else if (random < 0.9999) {
             outputMessage.setDescription(':woozy_face: **いいえ、私はエビ。**:shrimp:');
         } else {
