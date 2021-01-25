@@ -70,22 +70,27 @@ export function initCommands(client: Client): void {
             lock.acquire(message.channel.id, async () => {
                 const [commandName, ...args] = message.content.slice(1).split(/\s/).filter(s => s !== '');
 
-                const command = commands.get(commandName) ?? commandAliases.get(commandName);
                 let outputMessage;
-                if (command) {
-                    try {
-                        outputMessage = await command.func(client, message, ...args);
 
-                        serverStats.commandCount++;
-                    } catch (ex) {
-                        outputMessage = new MessageEmbed().setDescription(`:x: **コマンドの実行中にエラーが発生しました**: ${ex.message}`);
+                if (commandName) {
+                    const command = commands.get(commandName) ?? commandAliases.get(commandName);
+                    if (command) {
+                        try {
+                            outputMessage = await command.func(client, message, ...args);
+
+                            serverStats.commandCount++;
+                        } catch (ex) {
+                            outputMessage = new MessageEmbed().setDescription(`:x: **コマンドの実行中にエラーが発生しました**: ${ex.message}`);
+
+                            serverStats.failedCommandCount++;
+                        }
+                    } else {
+                        outputMessage = new MessageEmbed().setDescription(`:x: **不明なコマンドです**: \`${commandName}\``);
 
                         serverStats.failedCommandCount++;
                     }
                 } else {
-                    outputMessage = new MessageEmbed().setDescription(`:x: **不明なコマンドです**: \`${commandName}\``);
-
-                    serverStats.failedCommandCount++;
+                    outputMessage = new MessageEmbed().setDescription(':x: **コマンド名を指定してください。**');
                 }
 
                 if (outputMessage) {
