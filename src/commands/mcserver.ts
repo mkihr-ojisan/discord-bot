@@ -10,7 +10,7 @@ export default {
     aliases: ['mcs'],
     shortDescription: 'マインクラフトサーバーが起動しているかどうか確認します。',
     func: async (): Promise<MessageEmbed> => {
-        const isRunning = isReachable(`${MCSERVER_HOST}:${MCSERVER_PORT}`, { timeout: 500 });
+        const isRunning = await isReachable(`${MCSERVER_HOST}:${MCSERVER_PORT}`, { timeout: 500 });
 
         const outputMessage = new MessageEmbed();
         if (isRunning) {
