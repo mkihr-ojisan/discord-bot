@@ -13,6 +13,7 @@ import info from './commands/info';
 import delmsg from './commands/delmsg';
 import getconfig from './commands/getconfig';
 import emojilookup from './commands/emojilookup';
+import mcserver from './commands/mcserver';
 
 export const DEFAULT_MESSAGE_EMBED_COLOR = '#d5a446';
 
@@ -57,6 +58,7 @@ function registerCommand(command: Command) {
     delmsg,
     getconfig,
     emojilookup,
+    mcserver,
 ].forEach(registerCommand);
 
 const lock = new AsyncLock();
