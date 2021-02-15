@@ -30,8 +30,10 @@ export default {
                 outputMessage.description += `:x: ユーザー\`${query}\`が見つかりません。\n`;
             } else {
                 for (const member of members) {
-                    blockUser(member.user.id);
-                    outputMessage.description += `:white_check_mark: **${member.nickname ?? member.displayName}**をブロックしました。\n`;
+                    if (blockUser(member.user.id))
+                        outputMessage.description += `:white_check_mark: **${member.nickname ?? member.displayName}**をブロックしました。\n`;
+                    else
+                        outputMessage.description += `:x: **${member.nickname ?? member.displayName}**は既にブロックされています。\n`;
                 }
             }
         }

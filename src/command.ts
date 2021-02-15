@@ -118,9 +118,13 @@ export function getCommandPrefix(guild: Guild | null): string {
 }
 
 let blockedUserIds: Set<string>;
-export function blockUser(id: string): void {
-    blockedUserIds.add(id);
-    saveBlockedUser();
+export function blockUser(id: string): boolean {
+    const isAdded = !blockedUserIds.has(id);
+    if (isAdded) {
+        blockedUserIds.add(id);
+        saveBlockedUser();
+    }
+    return isAdded;
 }
 export function unblockUser(id: string): boolean {
     const isDeleted = blockedUserIds.delete(id);
