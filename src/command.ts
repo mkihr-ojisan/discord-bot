@@ -2,7 +2,7 @@ import { Client, Guild, Message, MessageEmbed } from 'discord.js';
 import echo from './commands/echo';
 import help from './commands/help';
 import halt from './commands/halt';
-import { getGuildConfig } from './config';
+import { getConfig, getGuildConfig, setConfig } from './config';
 import lumonde from './commands/lumonde';
 import amongusmap from './commands/amongusmap';
 import youareebi from './commands/youareebi';
@@ -14,6 +14,8 @@ import delmsg from './commands/delmsg';
 import getconfig from './commands/getconfig';
 import emojilookup from './commands/emojilookup';
 import mcserver from './commands/mcserver';
+import block from './commands/block';
+import unblock from './commands/unblock';
 
 export const DEFAULT_MESSAGE_EMBED_COLOR = '#d5a446';
 
@@ -59,16 +61,20 @@ function registerCommand(command: Command) {
     getconfig,
     emojilookup,
     mcserver,
+    block,
+    unblock,
 ].forEach(registerCommand);
 
 const lock = new AsyncLock();
 
 export function initCommands(client: Client): void {
+    blockedUserIds = new Set(getConfig<string>('commands.blockedUserIds')?.split(',') ?? []);
+
     client.on('message', async (message) => {
         serverStats.receivedMessageCount++;
 
         const commandPrefix = getCommandPrefix(message.guild);
-        if (!message.author.bot && message.content.startsWith(commandPrefix)) {
+        if (!message.author.bot && message.content.startsWith(commandPrefix) && !blockedUserIds.has(message.author.id)) {
             lock.acquire(message.channel.id, async () => {
                 const [commandName, ...args] = message.content.slice(1).split(/\s/).filter(s => s !== '');
 
@@ -109,4 +115,18 @@ export function initCommands(client: Client): void {
 
 export function getCommandPrefix(guild: Guild | null): string {
     return (guild && getGuildConfig<string>(guild, 'commands.prefix')) ?? '$';
-} 
+}
+
+let blockedUserIds: Set<string>;
+export function blockUser(id: string): void {
+    blockedUserIds.add(id);
+    saveBlockedUser();
+}
+export function unblockUser(id: string): boolean {
+    const isDeleted = blockedUserIds.delete(id);
+    saveBlockedUser();
+    return isDeleted;
+}
+function saveBlockedUser() {
+    setConfig('commands.blockedUserIds', Array.from(blockedUserIds).join(','));
+}
