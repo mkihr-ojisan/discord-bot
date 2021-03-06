@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { Client, Message, MessageEmbed } from 'discord.js';
 import isReachable from 'is-reachable';
 import mc from 'minecraft-protocol';
 import { promisify } from 'util';
@@ -8,7 +8,7 @@ interface Server {
     host: string,
     port: number,
 }
-const servers: Server[] = [
+const defaultServers: Server[] = [
     {
         name: 'バニラサーバー',
         host: '192.168.0.37',
@@ -31,8 +31,25 @@ export default {
     name: 'ismcserverrunning',
     aliases: ['mcs'],
     shortDescription: 'マインクラフトサーバーが起動しているかどうか確認します。',
-    func: async (): Promise<MessageEmbed> => {
+    description: {
+        usage: '[アドレス ...]',
+    },
+    func: async (_client: Client, _message: Message, ...args: string[]): Promise<MessageEmbed> => {
         const outputMessage = new MessageEmbed();
+
+        let servers: Server[];
+        if (args.length > 0) {
+            servers = args.map(arg => {
+                const [host, port] = arg.split(':');
+                return {
+                    name: arg,
+                    host: host,
+                    port: parseInt(port) || 25565,
+                };
+            });
+        } else {
+            servers = defaultServers;
+        }
 
         const statuses = await Promise.all(servers.map(getServerStatus));
         outputMessage.addFields(statuses.map(status => {
