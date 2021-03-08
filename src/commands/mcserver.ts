@@ -1,5 +1,4 @@
 import { Client, Message, MessageEmbed } from 'discord.js';
-import isReachable from 'is-reachable';
 import mc from 'minecraft-protocol';
 import { promisify } from 'util';
 
@@ -64,9 +63,8 @@ export default {
 };
 
 async function getServerStatus(server: Server): Promise<ServerStatus> {
-    const isRunning = await isReachable(server.host + ':' + server.port, { timeout: 500 });
-    if (isRunning) {
-        const pingResult = await promisify(mc.ping)({ host: server.host, port: server.port });
+    try {
+        const pingResult = await timeout(promisify(mc.ping)({ host: server.host, port: server.port }), 500);
         if ('players' in pingResult) {
             if (pingResult.players.sample) {
                 return {
@@ -84,7 +82,7 @@ async function getServerStatus(server: Server): Promise<ServerStatus> {
         } else {
             return { isRunning: true, server };
         }
-    } else {
+    } catch {
         return { isRunning: false, server };
     }
 }
@@ -103,4 +101,20 @@ function serverStatusToMessageString(status: ServerStatus): string {
     }
 
     return message;
+}
+
+function timeout<T>(promise: Promise<T>, timeout: number): Promise<T> {
+    return new Promise((resolve, reject) => {
+        const timeoutId = setTimeout(() => {
+            reject(Error('timed out'));
+        }, timeout);
+
+        promise.then(result => {
+            clearTimeout(timeoutId);
+            resolve(result);
+        }).catch(error => {
+            clearTimeout(timeoutId);
+            reject(error);
+        });
+    });
 }
