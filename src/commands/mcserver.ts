@@ -63,8 +63,9 @@ export default {
 };
 
 async function getServerStatus(server: Server): Promise<ServerStatus> {
+    const host = server.host === 'mki.hrl.cl' ? '192.168.0.37' : server.host;
     try {
-        const pingResult = await timeout(promisify(mc.ping)({ host: server.host, port: server.port }), 500);
+        const pingResult = await timeout(promisify(mc.ping)({ host, port: server.port }), 500);
         if ('players' in pingResult) {
             if (pingResult.players.sample) {
                 return {
